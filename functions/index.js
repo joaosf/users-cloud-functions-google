@@ -10,14 +10,12 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.allUsers = functions.https.onRequest((request,response) => {
     admin.firestore().collection('users').get().then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                console.log(doc.data());
-                let data = doc.data();
-                if (data) {
-                    response.send(data);
-                }
-                response.send('No such users!');
-            });
+            let listData = querySnapshot.docs.map(doc => doc.data());
+            console.log(listData)
+            if (listData) {
+                response.send(listData);
+            }
+            response.send('No such users!');
         });
 });
 
